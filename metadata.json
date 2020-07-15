@@ -1,0 +1,54 @@
+{
+  "name": "puppetlabs-helm",
+  "version": "3.1.0",
+  "author": "puppetlabs",
+  "summary": "A module to install Helm, a kubernetes package manager",
+  "license": "Apache-2.0",
+  "source": "https://github.com/puppetlabs/puppetlabs-helm",
+  "project_page": "https://github.com/puppetlabs/puppetlabs-helm",
+  "issues_url": "https://github.com/puppetlabs/puppetlabs-helm/issues",
+  "dependencies": [
+    {
+      "name": "puppetlabs-stdlib",
+      "version_requirement": ">= 4.19.0 <= 5.2.0"
+    },
+    {
+      "name": "puppet-archive",
+      "version_requirement": ">= 2.0.0 <= 3.2.1"
+    },
+    {
+      "name": "puppetlabs/translate",
+      "version_requirement": ">= 1.0.0 < 3.0.0"
+    }
+  ],
+  "data_provider": null,
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": [
+        "16.04"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "name": "puppet",
+      "version_requirement": ">= 5.5.10 < 7"
+    }
+  ],
+  "pdk-version": "1.14.1",
+  "template-url": "https://github.com/puppetlabs/pdk-templates#master",
+  "template-ref": "heads/master-0-gfaf9e8b"
+}
