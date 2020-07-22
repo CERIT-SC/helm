@@ -20,9 +20,7 @@ module Puppet::Parser::Functions
     flags << "--username '#{opts['username']}'" if opts['username'] && opts['username'].to_s != 'undef'
     flags << "--password '#{opts['password']}'" if opts['password'] && opts['password'].to_s != 'undef'
     flags << "--namespace #{opts['namespace']}" if opts['namespace'] && opts['namespace'].to_s != 'undef'
-    flags << "'#{opts['repo_name']}'" if opts['repo_name'] && opts['repo_name'].to_s != 'undef'
-    flags << "'#{opts['url']}'" if opts['url'] && opts['url'].to_s != 'undef'
-
+    
     multi_flags = lambda { |values, format|
       filtered = [values].flatten.compact
       filtered.map { |val| sprintf(format + " \\\n", val) }
@@ -32,6 +30,9 @@ module Puppet::Parser::Functions
         new_flags = multi_flags.call(values, format)
         flags.concat(new_flags)
     end
+    
+    flags << "'#{opts['repo_name']}'" if opts['repo_name'] && opts['repo_name'].to_s != 'undef'
+    flags << "'#{opts['url']}'" if opts['url'] && opts['url'].to_s != 'undef'
 
     flags.flatten.join(' ')
   end

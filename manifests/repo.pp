@@ -17,7 +17,7 @@ define helm::repo (
   Optional[String] $repo_name        = undef,
   Optional[String] $url              = undef,
   Optional[String] $namespace        = undef,
-  Optional[Array] $set                = [],
+  Optional[Array] $set               = undef,
 ){
 
   include ::helm::params
