@@ -24,7 +24,7 @@ define helm::repo_update (
     $exec_update = "helm repo ${helm_repo_update_flags}"
   }
 
-  exec { 'helm repo update':
+  exec { $title:
     command     => $exec_update,
     environment => $env,
     path        => $path,
