@@ -20,6 +20,8 @@ module Puppet::Parser::Functions
     flags << "--username '#{opts['username']}'" if opts['username'] && opts['username'].to_s != 'undef'
     flags << "--password '#{opts['password']}'" if opts['password'] && opts['password'].to_s != 'undef'
     flags << "--namespace #{opts['namespace']}" if opts['namespace'] && opts['namespace'].to_s != 'undef'
+    flags << "--repository-config #{opts['repository_config']}" if opts['repository_config'] && opts['repository_config'].to_s != 'undef'
+    flags << "--repository-cache #{opts['repository_cache']}" if opts['repository_cache'] && opts['repository_cache'].to_s != 'undef'
     
     multi_flags = lambda { |values, format|
       filtered = [values].flatten.compact

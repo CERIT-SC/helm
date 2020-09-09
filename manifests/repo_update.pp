@@ -7,6 +7,8 @@ define helm::repo_update (
   Optional[String] $kube_context     = undef,
   Optional[Array] $path              = undef,
   Optional[String] $tiller_namespace = undef,
+  Optional[String] $repository_config= undef,
+  Optional[String] $repository_cache = undef,
   Boolean $update                    = true,
 ){
 
@@ -14,12 +16,14 @@ define helm::repo_update (
 
   if $update {
     $helm_repo_update_flags = helm_repo_update_flags({
-      debug => $debug,
-      home => $home,
-      host => $host,
-      kube_context => $kube_context,
-      tiller_namespace => $tiller_namespace,
-      update => $update,
+      debug             => $debug,
+      home              => $home,
+      host              => $host,
+      kube_context      => $kube_context,
+      tiller_namespace  => $tiller_namespace,
+      repository_config => $repository_config,
+      repository_cache  => $repository_cache,
+      update            => $update,
     })
     $exec_update = "helm repo ${helm_repo_update_flags}"
   }
