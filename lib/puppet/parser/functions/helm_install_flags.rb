@@ -23,7 +23,9 @@ module Puppet::Parser::Functions
     flags << "--name-template '#{opts['name_template']}'" if opts['name_template'] && opts['name_template'].to_s != 'undef'
     flags << "--namespace '#{opts['namespace']}'" if opts['namespace'] && opts['namespace'].to_s != 'undef'
     flags << '--no-hooks' if opts['no_hooks']
-    flags << '--replace' if opts['replace']
+    flags << '--replace' if opts['replace'] 
+    flags << "--repository-config #{opts['repository_config']}" if opts['repository_config'] && opts['repository_config'].to_s != 'undef'
+    flags << "--repository-cache #{opts['repository_cache']}" if opts['repository_cache'] && opts['repository_cache'].to_s != 'undef'
 
     if opts['repo'].to_s != 'undef'
       flags << "--repo '#{opts['repo']}'"
