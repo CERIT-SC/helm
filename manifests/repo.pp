@@ -63,7 +63,7 @@ define helm::repo (
     $unless_repo = "helm repo list | awk '{if (\$1 == \"${repo_name}\") exit 1}'"
   }
 
-  exec { "helm repo ${repo_name}":
+  exec { "helm repo ${repo_name} ${kube_context}":
     command     => $exec_repo,
     environment => $env,
     path        => $path,
