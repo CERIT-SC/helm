@@ -43,7 +43,7 @@ define helm::chart (
   }
 
   if $ensure == present {
-    $helm_install_flags = helm_install_flags({
+    $helm_install_upgrade_flags = helm_install_upgrade_flags({
       ensure            => $ensure,
       ca_file           => $ca_file,
       cert_file         => $cert_file,
@@ -77,21 +77,45 @@ define helm::chart (
       wait              => $wait,
       })
     $exec = "helm install ${name}"
-    $exec_chart = "helm ${helm_install_flags}"
+    $exec_chart = "helm install ${helm_install_upgrade_flags}"
     $helm_ls_flags = helm_ls_flags({
       ls => true,
       home => $home,
       host => $host,
       kube_context => $kube_context,
       namespace => $namespace,
-      short => true,
+      short => false,
       tls => $tls,
       tls_ca_cert => $tls_ca_cert,
       tls_cert => $tls_cert,
       tls_key => $tls_key,
       tls_verify => $tls_verify,
     })
-    $unless_chart = "helm ${helm_ls_flags} | grep -q '^${release_name}$'"
+    $unless_chart = "helm ${helm_ls_flags} | grep -q '${release_name}'"
+    exec { $exec:
+      command     => $exec_chart,
+      environment => $env,
+      path        => $path,
+      timeout     => 0,
+      tries       => 10,
+      try_sleep   => 10,
+      unless      => $unless_chart,
+    }
+    
+    if $version != undef {
+      $upgrade = "helm upgrade ${name}"
+      $upgrade_chart = "helm upgrade ${helm_install_upgrade_flags}"
+      $onlyif_chart = "/bin/bash -c 'X=`helm ${helm_ls_flags}`; [[ \$X == *${release_name}* ]] && [[ \$X != *${release_name}-v${version}* ]]'"
+      exec { $upgrade:
+        command     => $upgrade_chart,
+        environment => $env,
+        path        => $path,
+        timeout     => 0,
+        tries       => 10,
+        try_sleep   => 10,
+        onlyif      => $onlyif_chart,
+      }
+    }
   }
 
   if $ensure == absent {
@@ -129,15 +153,15 @@ define helm::chart (
       tls_verify => $tls_verify,
     })
     $unless_chart = "helm ${helm_ls_flags} | awk '{if(\$1 == \"${release_name}\") exit 1}'"
-  }
 
-  exec { $exec:
-    command     => $exec_chart,
-    environment => $env,
-    path        => $path,
-    timeout     => 0,
-    tries       => 10,
-    try_sleep   => 10,
-    unless      => $unless_chart,
+    exec { $exec:
+      command     => $exec_chart,
+      environment => $env,
+      path        => $path,
+      timeout     => 0,
+      tries       => 10,
+      try_sleep   => 10,
+      unless      => $unless_chart,
+    }
   }
 }
