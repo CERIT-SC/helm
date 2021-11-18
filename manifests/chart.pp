@@ -34,6 +34,7 @@ define helm::chart (
   Boolean $verify                     = false,
   Optional[String] $version           = undef,
   Boolean $wait                       = false,
+  Boolean $upgrade                    = false,
 ){
 
   include ::helm::params
@@ -101,12 +102,26 @@ define helm::chart (
       try_sleep   => 10,
       unless      => $unless_chart,
     }
+
+    if $upgrade {
+      $onlyif_upgrade = "/bin/bash -c 'X=`helm diff upgrade ${helm_install_upgrade_flags} | wc -l` ; [[ \$X -gt 0 ]]'"
+
+      exec { "helm upgrade ${name} diff":
+        command     => "helm upgrade ${helm_install_upgrade_flags}"
+        environment => $env,
+        path        => $path,
+        timeout     => 0,
+        tries       => 10,
+        try_sleep   => 10,
+        onlyif      => $onlyif_upgrade,
+      }
+    }
     
     if $version != undef {
-      $upgrade = "helm upgrade ${name}"
+      $upgrade_name = "helm upgrade ${name}"
       $upgrade_chart = "helm upgrade ${helm_install_upgrade_flags}"
       $onlyif_chart = "/bin/bash -c 'X=`helm ${helm_ls_flags}`; [[ \$X == *${release_name}* ]] && [[ \$X != *${release_name}-v${version}* ]]'"
-      exec { $upgrade:
+      exec { $upgrade_name:
         command     => $upgrade_chart,
         environment => $env,
         path        => $path,

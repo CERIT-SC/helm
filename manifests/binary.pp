@@ -45,4 +45,9 @@ class helm::binary (
     target  => "${install_path}/helm-${version}",
     require => File["${install_path}/helm-${version}"],
   }
+
+  exec { "helm-diff":
+      command => "helm plugin install https://github.com/databus23/helm-diff",
+      require => File["${install_path}/helm"],
+  }
 }
