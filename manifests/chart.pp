@@ -107,7 +107,7 @@ define helm::chart (
       $onlyif_upgrade = "/bin/bash -c 'X=`helm diff upgrade ${helm_install_upgrade_flags} | wc -l` ; [[ \$X -gt 0 ]]'"
 
       exec { "helm upgrade ${name} diff":
-        command     => "helm upgrade ${helm_install_upgrade_flags}"
+        command     => "helm upgrade ${helm_install_upgrade_flags}",
         environment => $env,
         path        => $path,
         timeout     => 0,
