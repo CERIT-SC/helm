@@ -49,5 +49,6 @@ class helm::binary (
   exec { "helm-diff":
       command => "helm plugin install https://github.com/databus23/helm-diff",
       require => File["${install_path}/helm"],
+      unless  => "/usr/bin/bash -c '[ ! -z \"`helm plugin list | grep diff`\" ]'"
   }
 }
