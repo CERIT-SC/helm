@@ -46,9 +46,16 @@ class helm::binary (
     require => File["${install_path}/helm-${version}"],
   }
 
+  if $proxy != undef {
+    $_env = [ "https_proxy=${proxy}" ]
+  } else {
+    $_env = undef
+  }
+
   exec { "helm-diff":
-      command => "helm plugin install https://github.com/databus23/helm-diff",
-      require => File["${install_path}/helm"],
-      unless  => "/usr/bin/bash -c '[ ! -z \"`helm plugin list | grep diff`\" ]'"
+      command     => "helm plugin install https://github.com/databus23/helm-diff",
+      require     => File["${install_path}/helm"],
+      unless      => "/usr/bin/bash -c '[ ! -z \"`helm plugin list | grep diff`\" ]'",
+      environment => $_env,
   }
 }
