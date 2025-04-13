@@ -6,7 +6,7 @@ class helm::binary (
   String $archive_baseurl = $helm::archive_baseurl,
 ){
 
-  case $::architecture {
+  case $facts['os']['architecture'] {
     'amd64': {
       $arch = 'amd64'
     }
@@ -17,7 +17,7 @@ class helm::binary (
       $arch = 'amd64'
     }
     default: {
-      fail(translate("${::architecture} is not supported"))
+      fail(translate("${facts['os']['architecture']} is not supported"))
     }
   }
 
