@@ -21,7 +21,7 @@ module Puppet::Parser::Functions
     flags << "--host '#{opts['host']}'" if opts['host'] && opts['host'].to_s != 'undef'
     flags << "--kube-context '#{opts['kube_context']}'" if opts['kube_context'] && opts['kube_context'].to_s != 'undef'
     flags << "--name-template '#{opts['name_template']}'" if opts['name_template'] && opts['name_template'].to_s != 'undef'
-    flags << "--namespace '#{opts['namespace']}'" if opts['namespace'] && opts['namespace'].to_s != 'undef'
+    flags << "--namespace '#{opts['namespace']}' --create-namespace" if opts['namespace'] && opts['namespace'].to_s != 'undef'
     flags << '--no-hooks' if opts['no_hooks']
     flags << '--replace' if opts['replace'] 
     flags << "--repository-config #{opts['repository_config']}" if opts['repository_config'] && opts['repository_config'].to_s != 'undef'
