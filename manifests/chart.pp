@@ -120,7 +120,7 @@ define helm::chart (
     if $version != undef {
       $upgrade_name = "helm upgrade ${name}"
       $upgrade_chart = "helm upgrade ${helm_install_upgrade_flags}"
-      $onlyif_chart = "/bin/bash -c 'X=`helm ${helm_ls_flags}`; [[ \$X == *${release_name}* ]] && [[ \$X != *${release_name}-v${version}* ]]'"
+      $onlyif_chart = "/bin/bash -c 'X=`helm ${helm_ls_flags}`; [[ \$X == *${release_name}* ]] && [[ \$X != *${release_name}-v${version}* ]] && [[ \$X != *${release_name}-${version}* ]]'"
       exec { $upgrade_name:
         command     => $upgrade_chart,
         environment => $env,
