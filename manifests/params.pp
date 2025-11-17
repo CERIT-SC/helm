@@ -28,6 +28,6 @@ class helm::params {
   $tiller_tls_verify         = false
   $tls_ca_cert               = undef
   $upgrade                   = false
-  $version                   = '2.7.2'
-  $archive_baseurl           = 'https://kubernetes-helm.storage.googleapis.com'
+  $version                   = '3.19.2'
+  $archive_baseurl           = 'https://get.helm.sh'
 }
